@@ -1,8 +1,8 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
 import OCPIEndpoint, { OCPIEndpointVersions, OCPIPingResult, OCPIRegisterResult, OCPIUnregisterResult, OCPIVersion } from '../../types/ocpi/OCPIEndpoint';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 import AxiosFactory from '../../utils/AxiosFactory';
+import { AxiosInstance } from 'axios';
 import BackendError from '../../exception/BackendError';
 import Configuration from '../../utils/Configuration';
 import { HTTPError } from '../../types/HTTPError';
@@ -12,7 +12,6 @@ import OCPIEndpointStorage from '../../storage/mongodb/OCPIEndpointStorage';
 import { OCPIRegistrationStatus } from '../../types/ocpi/OCPIRegistrationStatus';
 import { OCPIRole } from '../../types/ocpi/OCPIRole';
 import OCPIUtils from '../../server/ocpi/OCPIUtils';
-import OCPIUtilsService from '../../server/ocpi/ocpi-services-impl/ocpi-2.1.1/OCPIUtilsService';
 import { OcpiSetting } from '../../types/Setting';
 import { ServerAction } from '../../types/Server';
 import Tenant from '../../types/Tenant';
@@ -70,7 +69,14 @@ export default abstract class OCPIClient {
     const unregisterResult = {} as OCPIUnregisterResult;
     try {
       // Check versions
-      await this.getAndCheckVersions(ServerAction.OCPI_UNREGISTER);
+      const versionFound = await this.checkVersions();
+      if (!versionFound) {
+        throw new BackendError({
+          action: ServerAction.OCPI_UNREGISTER,
+          message: 'OCPI Endpoint version 2.1.1 not found',
+          module: MODULE_NAME, method: 'constructor',
+        });
+      }
       // Delete credentials
       await this.deleteCredentials();
       // Save endpoint
@@ -93,11 +99,18 @@ export default abstract class OCPIClient {
     const registerResult = {} as OCPIRegisterResult;
     try {
       // Check versions
-      await this.getAndCheckVersions(ServerAction.OCPI_UNREGISTER);
+      const versionFound = await this.checkVersions();
+      if (!versionFound) {
+        throw new BackendError({
+          action: ServerAction.OCPI_REGISTER,
+          message: 'OCPI Endpoint version 2.1.1 not found',
+          module: MODULE_NAME, method: 'constructor',
+        });
+      }
       // Try to read services
       const endpointVersions = await this.getEndpointVersions();
       // Set available endpoints
-      this.ocpiEndpoint.availableEndpoints = OCPIUtilsService.convertAvailableEndpoints(endpointVersions);
+      this.ocpiEndpoint.availableEndpoints = OCPIUtils.convertAvailableEndpoints(endpointVersions);
       this.ocpiEndpoint.localToken = OCPIUtils.generateLocalToken(this.tenant.subdomain);
       // Post credentials and receive response
       const credentials = await this.postCredentials();
@@ -176,7 +189,7 @@ export default abstract class OCPIClient {
   public async postCredentials(): Promise<OCPICredential> {
     // Get credentials url
     const credentialsUrl = this.getEndpointUrl('credentials', ServerAction.OCPI_POST_CREDENTIALS);
-    const credentials = await OCPIUtilsService.buildOCPICredentialObject(this.tenant, this.ocpiEndpoint.localToken, this.ocpiEndpoint.role);
+    const credentials = await OCPIUtils.buildOCPICredentialObject(this.tenant, this.ocpiEndpoint.localToken, this.ocpiEndpoint.role);
     await Logging.logInfo({
       tenantID: this.tenant.id,
       action: ServerAction.OCPI_POST_CREDENTIALS,
@@ -241,7 +254,7 @@ export default abstract class OCPIClient {
     return `${Configuration.getOCPIEndpointConfig().baseUrl}/ocpi/${this.role}/${this.ocpiEndpoint.version}/${service}`;
   }
 
-  private async getAndCheckVersions(action: ServerAction) {
+  private async checkVersions(): Promise<boolean> {
     // Get available version.
     const ocpiVersions = await this.getVersions();
     // Loop through versions and pick the same one
@@ -254,13 +267,6 @@ export default abstract class OCPIClient {
         break;
       }
     }
-    // If not found trigger exception
-    if (!versionFound) {
-      throw new BackendError({
-        action,
-        message: 'OCPI Endpoint version 2.1.1 not found',
-        module: MODULE_NAME, method: 'constructor',
-      });
-    }
+    return versionFound;
   }
 }
