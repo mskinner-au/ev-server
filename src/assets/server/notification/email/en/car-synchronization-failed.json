@@ -1,36 +1,35 @@
 {
-  "subject": "Car Synchronization Failed",
-  "tenant": "<%- tenantID %>",
-  "baseURL": "<%- evseDashboardURL %>",
-  "body": {
-    "header": {
-      "title": "Car Synchronization Failed",
-      "image": {
-        "left": {
-          "height": 60,
-          "url": "<%- tenantLogoURL %>"
+    "subject": "Car Synchronization Failed",
+    "tenant": "<%- tenantID %>",
+    "baseURL": "<%- evseDashboardURL %>",
+    "body": {
+        "header": {
+            "title": "Car Synchronization Failed",
+            "image": {
+                "left": {
+                    "height": 60,
+                    "url": "<%- tenantLogoURL %>"
+                },
+                "right": {
+                    "height": 50,
+                    "url": "<%- evseDashboardURL %>/assets/img/info.png"
+                }
+            }
         },
-        "right": {
-          "height": 50,
-          "url": "<%- evseDashboardURL %>/assets/img/info.png"
-        }
-      }
-    },
-    "beforeActionLines": [
-      "Dear Administrator,",
-      "",
-      "Unable to synchronize <%- nbrCarsInError %> car(s) with the electric vehicles data provider.",
-      ""
-    ],
-    "actions": [{
-      "title": "e-Mobility",
-      "url": "<%- evseDashboardURL %>"
-    }],
-    "afterActionLines": [
-      "Best Regards,",
-      "EV Admins."
-    ],
-    "footer": {
+        "beforeActionLines": [
+            "Dear Administrator,",
+            "",
+            "Unable to synchronize <%- nbrCarsInError %> car(s) with the electric vehicles data provider.",
+            ""
+        ],
+        "actions": [{
+            "title": "Management website",
+            "url": "<%- evseDashboardURL %>"
+        }],
+        "afterActionLines": [
+            "Best Regards,",
+            "EV Admins."
+        ],
+        "footer": {}
     }
-  }
 }
