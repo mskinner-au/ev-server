@@ -5,6 +5,7 @@ users-imported.json
 src/assets/config*.json
 !src/assets/config-template-http.json
 !src/assets/config-template-https.json
+!src/assets/config-xintyx.json
 manifest.yml
 
 # Logs

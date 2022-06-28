@@ -1,36 +1,35 @@
 {
-  "subject": "Falha na sincronização do carro",
-  "tenant": "<%- tenantID %>",
-  "baseURL": "<%- evseDashboardURL %>",
-  "body": {
-    "header": {
-      "title": "Falha na sincronização do carro",
-      "image": {
-        "left": {
-          "height": 60,
-          "url": "<%- tenantLogoURL %>"
+    "subject": "Falha na sincronização do carro",
+    "tenant": "<%- tenantID %>",
+    "baseURL": "<%- evseDashboardURL %>",
+    "body": {
+        "header": {
+            "title": "Falha na sincronização do carro",
+            "image": {
+                "left": {
+                    "height": 60,
+                    "url": "<%- tenantLogoURL %>"
+                },
+                "right": {
+                    "height": 50,
+                    "url": "<%- evseDashboardURL %>/assets/img/info.png"
+                }
+            }
         },
-        "right": {
-          "height": 50,
-          "url": "<%- evseDashboardURL %>/assets/img/info.png"
-        }
-      }
-    },
-    "beforeActionLines": [
-      "Caro Administrador,",
-      "",
-      "Não foi possível sincronizar <%- nbrCarsInError %> carro (s) com o provedor de dados de veículos elétricos.",
-      ""
-    ],
-    "actions": [{
-      "title": "e-Mobility",
-      "url": "<%- evseDashboardURL %>"
-    }],
-    "afterActionLines": [
-      "Com os melhores cumprimentos,",
-      "EV Admins."
-    ],
-    "footer": {
+        "beforeActionLines": [
+            "Caro Administrador,",
+            "",
+            "Não foi possível sincronizar <%- nbrCarsInError %> carro (s) com o provedor de dados de veículos elétricos.",
+            ""
+        ],
+        "actions": [{
+            "title": "Management website",
+            "url": "<%- evseDashboardURL %>"
+        }],
+        "afterActionLines": [
+            "Com os melhores cumprimentos,",
+            "EV Admins."
+        ],
+        "footer": {}
     }
-  }
 }

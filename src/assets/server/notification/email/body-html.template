@@ -3,7 +3,7 @@
 	<body align="left" style="margin: 15px;">
     <!-- Header -->
     <table width="768" border="0" cellspacing="0" cellpadding="0">
-      <tr style="background-color: #1976d2;">
+      <tr style="background-color: #00B8A6;">
         <td>
           <table width="768" border="0" cellspacing="0" cellpadding="0">
             <tr height="90">
@@ -47,7 +47,7 @@
               <table width="100%" bgcolor="white" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td style="width: 30%;"></td>
-                  <td align="center" height="80" style="padding: 10px;line-height:1.3;background-color: #1976d2;border-radius: 10px;">
+                  <td align="center" height="80" style="padding: 10px;line-height:1.3;background-color: #00B8A6;border-radius: 10px;">
                     <font size="4" color="white" face="sans-serif">
                       <%- body.stats[i].label %><br/>
                     </font>
@@ -68,7 +68,7 @@
         <% for (var i = 0; i < body.actions.length; i++) { %>
         <tr style="margin-bottom: 10px;">
           <td style="width: 30%;"></td>
-          <td align="center" height="50" style="background-color: #1976d2;border-radius: 10px;">
+          <td align="center" height="50" style="background-color: #00B8A6;border-radius: 10px;">
             <a id="action-url" style="text-decoration:none;" href="<%- body.actions[i].url %>" target="_blank">
               <font size="4" color="white" face="sans-serif">
                 <strong><%- body.actions[i].title %></strong>
@@ -94,7 +94,7 @@
     </table>
     <!-- Footer -->
     <table width="768" border="0" cellspacing="0" cellpadding="0">
-      <tr style="background-color: #1976d2;">
+      <tr style="background-color: #00B8A6;">
         <td>
           <table width="768" border="0" cellspacing="0" cellpadding="0">
             <tr height="40">
@@ -103,8 +103,8 @@
               <td align="center">
               </td>
               <td width="180" align="right" style="padding-right: 15px;">
-                <a style="text-decoration:none" href="http://open-e-mobility.fr/" target="_blank">
-                  <font size="3" color="white" face="sans-serif"><i>e-Mobility</i></font>
+                <a style="text-decoration:none" href="<%- baseURL %>" target="_blank">
+                  <font size="3" color="white" face="sans-serif"><i>Xintyx</i></font>
                 </a>
               </td>
             </tr>
